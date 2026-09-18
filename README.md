@@ -12,38 +12,19 @@ Ask a question, and MindVault:
 I wanted to genuinely understand how modern AI knowledge-base tools (like ChatGPT's file upload or Notion AI) work under the hood, rather than just using an API wrapper. This project forced me to work through vector databases, embeddings, chunking strategy, and prompt design from scratch, entirely running on local infrastructure — no external AI APIs, no cloud costs.
 
 ## How it works
-Document (.docx / .pdf / .txt)
-│
-▼
-Text extraction (mammoth / pdf-parse)
-│
-▼
-Chunking (splits into ~800-character pieces with overlap)
-│
-▼
-Embedding (Ollama + nomic-embed-text → 768-dim vector)
-│
-▼
-Stored in PostgreSQL with pgvector
-│
-▼
-──────────────────────────────
-│
-User asks a question
-│
-▼
-Question embedded the same way
-│
-▼
-pgvector similarity search (cosine distance) → top 3 chunks
-│
-▼
-Chunks + question sent to Llama 3.2 (via Ollama)
-│
-▼
-Answer displayed, with sources and similarity scores shown
 
+**Adding a document:**
+1. Upload a `.docx`, `.pdf`, or `.txt` file
+2. Text is extracted (via `mammoth` or `pdf-parse`)
+3. The text is split into ~800-character chunks with overlap
+4. Each chunk is converted into a 768-dimension vector embedding (via Ollama + `nomic-embed-text`)
+5. Chunks and their embeddings are stored in PostgreSQL with pgvector
 
+**Asking a question:**
+1. Your question is embedded the same way
+2. pgvector runs a cosine similarity search to find the top 3 most relevant chunks
+3. Those chunks + your question are sent to Llama 3.2 (via Ollama)
+4. The generated answer is displayed, along with the source chunks and their similarity scores
 ## Tech stack
 
 - **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS

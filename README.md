@@ -41,18 +41,6 @@ flowchart TB
 3. Those chunks + your question are sent to Llama 3.2 (via Ollama)
 4. The generated answer is displayed, along with the source chunks and their similarity scores
 
-**Adding a document:**
-1. Upload a `.docx`, `.pdf`, or `.txt` file
-2. Text is extracted (via `mammoth` or `pdf-parse`)
-3. The text is split into ~800-character chunks with overlap
-4. Each chunk is converted into a 768-dimension vector embedding (via Ollama + `nomic-embed-text`)
-5. Chunks and their embeddings are stored in PostgreSQL with pgvector
-
-**Asking a question:**
-1. Your question is embedded the same way
-2. pgvector runs a cosine similarity search to find the top 3 most relevant chunks
-3. Those chunks + your question are sent to Llama 3.2 (via Ollama)
-4. The generated answer is displayed, along with the source chunks and their similarity scores
 ## Tech stack
 
 - **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS
